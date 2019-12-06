@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Quiz App",
+      debugShowCheckedModeBanner: false,
       home: QuizApp(),
     );
   }
@@ -57,30 +57,7 @@ class _QuizAppState extends State<QuizApp> {
                 padding: const EdgeInsets.all(8.0),
                 child: FlatButton(
                   onPressed: () {
-                    setState(() {
-                      bool check = checkAns(index);
-                      Icon icon = addAnswersList(check);
-                      answerIcons.add(icon);
-                      print(answerIcons.length);
-                      index = generateQuestion();
-                      Alert(
-                        context: context,
-                        type: AlertType.error,
-                        title: "Congrats!",
-                        desc: "Flutter is more awesome.",
-                        buttons: [
-                          DialogButton(
-                            child: Text(
-                              "I know!",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            onPressed: () => Navigator.pop(context),
-                            width: 120,
-                          )
-                        ],
-                      ).show();
-                    });
+                    checkAnswer();
                   },
                   child: new Text(
                     "True",
@@ -94,7 +71,9 @@ class _QuizAppState extends State<QuizApp> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    checkAnswer();
+                  },
                   child: Text("False", style: TextStyle(color: Colors.white)),
                   color: Colors.red,
                 ),
@@ -143,5 +122,31 @@ class _QuizAppState extends State<QuizApp> {
     );
     print("false");
     return icon;
+  }
+
+  checkAnswer() {
+    setState(() {
+      bool check = checkAns(index);
+      Icon icon = addAnswersList(check);
+      answerIcons.add(icon);
+      print(answerIcons.length);
+      index = generateQuestion();
+      /*Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Congrats!",
+        desc: "Flutter is more awesome.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "I know!",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          )
+        ],
+      ).show();*/
+    });
   }
 }
